@@ -1,0 +1,27 @@
+# Updating the binaries
+
+sudo apt update -y
+
+
+# Installing Apache2
+sudo apt install apache2
+
+
+# Check the Apache2 service status
+systemctl -l --type service --all | grep service_name
+
+# Check the Apache2 service is enabld or not
+
+service apache2 status | grep loaded
+
+# Archiving the logs
+
+now=$(date +"%Y.%m.%d")
+sudo tar --exclude='/var/log/apache2/*.tar' --exclude='/var/log/apache2/*.zip' -cvf /tmp/automation_project/apache2.$now.tar /var/log/apache2/
+
+#Login into AWS s3 bucket
+ aws s3 ls s3://task2s3bucket
+
+ # copy the file from local Vm  to S3 bucket
+timestamp=$(date '+%d%m%Y-%H%M%S')
+  aws s3 cp /tmp/automation_project/* s3://task2s3bucket/task2-$timestamp
